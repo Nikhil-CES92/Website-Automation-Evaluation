@@ -9,13 +9,13 @@ import constant from '../Utils/Constants/homePageConstants'
 import orderTypeData from '../TestData/orderTypeDetails.json'
 
 
-const { menuBtn, menuSearchBar, cartCountIcon } = pageSels.homePage
-const { item1 } = testData
+const { menuBtn, menuSearchBar, cartCountIcon, searchResultTitle } = pageSels.homePage
+const { item1, item2 } = testData
 const { pickUp, delivery } = constant.orderTypes
 const { messageAfterItemAddition } = constant.toastMessages
 
 let click, verify, homePage, urlCheck, type
-test.describe('Should execute KFC India test scenarios- Home page', () => {
+test.describe('Should execute KFC India test scenarios- Home page- Menu', () => {
     test.beforeEach('It should navigate to home page before each test block', async ({ page }) => {
         homePage = new HomePage(page)
         verify = new Verify(page)
@@ -50,6 +50,21 @@ test.describe('Should execute KFC India test scenarios- Home page', () => {
 
         //verifying card count after adding items
         await cartIcon.hasText('1')
+
+    })
+
+    test('[SC-2.1]: User should see 0 result for an invalid product search', async () => {
+        //clicking on menu btn and asserting for success
+        click.on(menuBtn)
+        urlCheck = await verify.theUrl()
+        await urlCheck.contains('menu')
+
+        //enter an invalid product name in search bar
+        await type.theTextInto(menuSearchBar, item2)
+
+        //verify for the search result text
+        const searchResultCount = await verify.theElement(searchResultTitle)
+        await searchResultCount.hasText('0 Results')
 
     })
 })
