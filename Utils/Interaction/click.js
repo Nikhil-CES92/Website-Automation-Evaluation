@@ -15,4 +15,8 @@ export default class Click {
         await this.page.locator(sel).click()
     }
 
+    async forceClickOn(sel) {
+        await this.page.locator(sel).click({ force: true })
+    }
+
 }
