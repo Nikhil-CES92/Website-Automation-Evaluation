@@ -3,16 +3,16 @@ import HomePage from '../PageObjects/homePageFns'
 import Verify from '../Utils/Assertions/verify'
 import Click from '../Utils/Interaction/click'
 import Type from '../Utils/Interaction/type'
-import pageSels from '../Utils/Selectors/pageSels'
-import testData from '../TestData/products.json'
-import constant from '../Utils/Constants/homePageConstants'
-import orderTypeData from '../TestData/orderTypeDetails.json'
+import PageSels from '../Utils/Selectors/pageSels'
+import TestData from '../TestData/products.json'
+import Constant from '../Utils/Constants/homePageConstants'
+import OrderTypeData from '../TestData/orderTypeDetails.json'
 
 
-const { menuBtn, menuSearchBar, cartCountIcon, searchResultTitle } = pageSels.homePage
-const { item1, item2 } = testData
-const { pickUp, delivery } = constant.orderTypes
-const { messageAfterItemAddition } = constant.toastMessages
+const { menuBtn, menuSearchBar, cartCountIcon, searchResultTitle } = PageSels.homePage
+const { item1, item2 } = TestData
+const { pickUp, delivery } = Constant.orderTypes
+const { messageAfterItemAddition } = Constant.toastMessages
 
 let click, verify, homePage, urlCheck, type
 test.describe('Should execute KFC India test scenarios- Home page- Menu', () => {
@@ -29,7 +29,7 @@ test.describe('Should execute KFC India test scenarios- Home page- Menu', () => 
 
     })
 
-    test('[SC-2]: User should be able to search a valid product and add to cart', async ({ page }) => {
+    test('[SC-2]: User should be able to search a valid product and add to cart', async () => {
         //clicking on menu btn and asserting for success
         click.on(menuBtn)
         urlCheck = await verify.theUrl()
@@ -42,7 +42,7 @@ test.describe('Should execute KFC India test scenarios- Home page- Menu', () => 
 
         //select the item from search result
         await homePage.selectItemFromSearchResult(item1)
-        await homePage.selectOrderTypeDetails(delivery, orderTypeData.dataSet1)
+        await homePage.selectOrderTypeDetails(delivery, OrderTypeData.dataSet1)
 
         //verify the toast message
         const toastMessage = await verify.theToastMessage()
