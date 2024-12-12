@@ -14,18 +14,19 @@ const { item1, item2 } = TestData
 const { pickUp, delivery } = Constant.orderTypes
 const { messageAfterItemAddition } = Constant.toastMessages
 
-let click, verify, homePage, urlCheck, type
+let click, verify, homePage, urlCheck, type, baseURL
 test.describe('Should execute KFC India test scenarios- Home page- Menu', () => {
     test.beforeEach('It should navigate to home page before each test block', async ({ page }) => {
         homePage = new HomePage(page)
         verify = new Verify(page)
         click = new Click(page)
         type = new Type(page)
+        baseURL = page.context()._options.baseURL
 
         //navigating to home page and verifying the URL
         await homePage.navigateToHomePage('/')
         urlCheck = await verify.theUrl()
-        await urlCheck.equalsTo('https://online.kfc.co.in/');
+        await urlCheck.equalsTo(baseURL);
 
     })
 
