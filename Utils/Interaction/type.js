@@ -8,7 +8,6 @@ export default class Type {
     }
 
     async theTextInto(sel, text) {
-        await this.page.locator(sel).clear()
         await this.page.fill(sel, text)
         await this.page.keyboard.press('Enter')
     }

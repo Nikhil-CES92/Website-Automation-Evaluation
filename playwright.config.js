@@ -1,11 +1,12 @@
 // @ts-check
 const { defineConfig, devices } = require('@playwright/test');
-
+import dotEnv from 'dotenv'
+dotEnv.config()
 /**
  * Read environment variables from file.
  * https://github.com/motdotla/dotenv
  */
-// require('dotenv').config({ path: path.resolve(__dirname, '.env') });
+//require('dotenv').config({ path: path.resolve(__dirname, '.env') })
 
 /**
  * @see https://playwright.dev/docs/test-configuration
@@ -29,7 +30,8 @@ module.exports = defineConfig({
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
-    browserName: 'chromium',
+    // @ts-ignore
+    browserName: process.env.CHROME_BROWSER
   },
 
   /* Configure projects for major browsers */

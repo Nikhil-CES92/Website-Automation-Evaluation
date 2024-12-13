@@ -1,5 +1,5 @@
 import { test } from '@playwright/test'
-import HomePage from '../PageObjects/homePageFns'
+import HomePage from '../PageObjects/homePage'
 import Verify from '../Utils/Assertions/verify'
 import Click from '../Utils/Interaction/click'
 import Type from '../Utils/Interaction/type'
@@ -14,58 +14,67 @@ const { item1, item2 } = TestData
 const { pickUp, delivery } = Constant.orderTypes
 const { messageAfterItemAddition } = Constant.toastMessages
 
-let click, verify, homePage, urlCheck, type, baseURL
+let click, verify, homePage, type, baseURL
 test.describe('Should execute KFC India test scenarios- Home page- Menu', () => {
-    test.beforeEach('It should navigate to home page before each test block', async ({ page }) => {
-        homePage = new HomePage(page)
-        verify = new Verify(page)
-        click = new Click(page)
-        type = new Type(page)
+    homePage = new HomePage()
+    verify = new Verify()
+    click = new Click()
+    type = new Type()
+
+    test.beforeEach('navigate to home page', async ({ page }) => {
+        homePage.page = page
+        verify.page = page
+        click.page = page
+        type.page = page
         baseURL = page.context()._options.baseURL
 
         //navigating to home page and verifying the URL
-        await homePage.navigateToHomePage('/')
-        urlCheck = await verify.theUrl()
-        await urlCheck.equalsTo(baseURL);
+        homePage.navigateToHomePage('/')
+            .then(() => verify.theUrl())
+            .then((urlCheck) => urlCheck.equalsTo(baseURL))
 
     })
 
     test('[SC-2]: User should be able to search a valid product and add to cart', async () => {
         //clicking on menu btn and asserting for success
-        click.on(menuBtn)
-        urlCheck = await verify.theUrl()
-        await urlCheck.contains('menu')
+        await click.on(menuBtn)
+        verify.theUrl()
+            .then((urlCheck) => urlCheck.contains('menu'))
+
 
         //enter product name in search  bar
-        const cartIcon = await verify.theElement(cartCountIcon)
-        await cartIcon.hasText('0')
+        verify.theElement(cartCountIcon)
+            .then((cartIcon) => cartIcon.hasText('0'))
+
         await type.theTextInto(menuSearchBar, item1)
 
         //select the item from search result
         await homePage.selectItemFromSearchResult(item1)
-        await homePage.selectOrderTypeDetails(delivery, OrderTypeData.dataSet1)
+        await homePage.selectOrderTypeDetails(delivery, OrderTypeData.dataSet1[0])
 
         //verify the toast message
-        const toastMessage = await verify.theToastMessage()
-        await toastMessage.showsToastMessage(messageAfterItemAddition)
+        verify.theToastMessage()
+            .then((toastMessage) => toastMessage.showsToastMessage(messageAfterItemAddition))
+
 
         //verifying card count after adding items
-        await cartIcon.hasText('1')
+        verify.theElement(cartCountIcon)
+            .then((cartIcon) => cartIcon.hasText('1'))
 
     })
 
     test('[SC-2.1]: User should see 0 result for an invalid product search', async () => {
         //clicking on menu btn and asserting for success
-        click.on(menuBtn)
-        urlCheck = await verify.theUrl()
-        await urlCheck.contains('menu')
+        await click.on(menuBtn)
+        verify.theUrl()
+            .then((urlCheck) => urlCheck.contains('menu'))
 
         //enter an invalid product name in search bar
         await type.theTextInto(menuSearchBar, item2)
 
         //verify for the search result text
-        const searchResultCount = await verify.theElement(searchResultTitle)
-        await searchResultCount.hasText('0 Results')
+        verify.theElement(searchResultTitle)
+            .then((searchResultCount) => searchResultCount.hasText('0 Results'))
 
     })
 })

@@ -31,10 +31,10 @@ export default class Verify {
         }
     }
 
-    async theToastMessage() {
+    async theToastMessage(sel = pageSels.homePage.toastMessage) {     //all toast messages are having same selector so adding a default selector value
         return {
             showsToastMessage: async (text) => {
-                await expect(this.page.locator(pageSels.homePage.toastMessage)).toHaveText(text)
+                await expect(this.page.locator(sel)).toHaveText(text)
             }
         }
     }

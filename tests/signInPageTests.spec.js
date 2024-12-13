@@ -1,5 +1,5 @@
 import { test } from '@playwright/test'
-import HomePage from '../PageObjects/homePageFns'
+import HomePage from '../PageObjects/homePage'
 import Verify from '../Utils/Assertions/verify'
 import Click from '../Utils/Interaction/click'
 import PageSels from '../Utils/Selectors/pageSels'

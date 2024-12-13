@@ -1,8 +1,8 @@
-import pageSels from '../Utils/Selectors/pageSels'
-import constant from '../Utils/Constants/homePageConstants'
+import PageSels from '../Utils/Selectors/pageSels'
+import Constant from '../Utils/Constants/homePageConstants'
 
-const { searchResultTitle, addToCartText, itemCard, itemNameInCard, deliveryTypeBtn, store_area_street_searchBar, pickUpTypeBtn, listOptions, store_area_street_suggestionList, confirmBtn, confirmBtnOnHandler } = pageSels.homePage
-const { delivery, pickUp } = constant.orderTypes
+const { searchResultTitle, addToCartText, itemCard, itemNameInCard, deliveryTypeBtn, storeAreaStreetSearchBar, pickUpTypeBtn, listOptions, storeAreaStreetSuggestionList, confirmBtn, confirmBtnOnHandler } = PageSels.homePage
+const { delivery, pickUp } = Constant.orderTypes
 /**
  * @class HomePage consists of different operation functions on homepage
  */
@@ -45,11 +45,16 @@ export default class HomePage {
             const totalItemCount = await this.page.locator(itemCard).count()
 
             for (let i = 0; i < totalItemCount; i++) {
-                if (await this.page.locator(itemCard).nth(i).locator(itemNameInCard).textContent() === item) {
-                    //if found click on add to cart
-                    await this.page.locator(itemCard).nth(i).getByText(addToCartText, { exact: true }).click()
+                const currentItemCard = this.page.locator(itemCard).nth(i)
+                const itemName = await currentItemCard.locator(itemNameInCard).textContent()
+
+                if (itemName === item) {
+                    // If found, click on "Add to Cart"
+                    await currentItemCard.getByText(addToCartText, { exact: true }).click()
+                    break
                 }
             }
+
         }
 
 
@@ -72,8 +77,8 @@ export default class HomePage {
             await this.page.locator(pickUpTypeBtn).click()
         }
 
-        await this.page.fill(store_area_street_searchBar, store || area || zip)
-        await this.page.locator(store_area_street_suggestionList).waitFor()
+        await this.page.fill(storeAreaStreetSearchBar, store || area || zip)
+        await this.page.locator(storeAreaStreetSuggestionList).waitFor()
 
         //selecting address from the list options
         await this.page.locator(listOptions).first().click()
