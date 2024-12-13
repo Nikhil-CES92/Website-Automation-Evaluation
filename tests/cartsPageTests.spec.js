@@ -16,7 +16,7 @@ const { pickUp, delivery } = Constant.orderTypes
 const { messageAfterItemAddition } = Constant.toastMessages
 const { name, email, phone } = OrderTypeData.dataSet1
 
-let click, verify, homePage, urlCheck, type, baseURL, cartsPage
+let click, verify, homePage, type, baseURL, cartsPage
 test.describe('Should execute KFC India test scenarios- Carts page', () => {
     test.beforeEach('It should navigate to home page before each test block', async ({ page }) => {
         homePage = new HomePage(page)
@@ -27,61 +27,66 @@ test.describe('Should execute KFC India test scenarios- Carts page', () => {
         baseURL = page.context()._options.baseURL
 
         //navigating to home page and verifying the URL
-        await homePage.navigateToHomePage('/')
-        urlCheck = await verify.theUrl()
-        await urlCheck.equalsTo(baseURL)
+        homePage.navigateToHomePage('/')
+            .then(() => verify.theUrl())
+            .then((urlCheck) => urlCheck.equalsTo(baseURL))
 
     })
 
     test('[SC-4]: User should be able to add a product to cart and check out', async () => {
         //clicking on menu btn and asserting for success
         await click.on(menuBtn)
-        urlCheck = await verify.theUrl()
-        await urlCheck.contains('menu')
+        verify.theUrl()
+            .then((urlCheck) => urlCheck.contains('menu'))
+
 
         //enter product name in search  bar
-        const cartIcon = await verify.theElement(cartCountIcon)
-        await cartIcon.hasText('0')
+        verify.theElement(cartCountIcon)
+            .then((cartIcon) => cartIcon.hasText('0'))
         await type.theTextInto(menuSearchBar, item1)
 
         //select the item from search result
         await homePage.selectItemFromSearchResult(item1)
-        await homePage.selectOrderTypeDetails(delivery, OrderTypeData.dataSet1)
+        await homePage.selectOrderTypeDetails(delivery, OrderTypeData.dataSet1[0])
 
         //verify the toast message
-        const toastMessage = await verify.theToastMessage()
-        await toastMessage.showsToastMessage(messageAfterItemAddition)
+        verify.theToastMessage()
+            .then((toastMessage) => toastMessage.showsToastMessage(messageAfterItemAddition))
 
         //verifying card count after adding items
-        await cartIcon.hasText('1')
+        verify.theElement(cartCountIcon)
+            .then((cartIcon) => cartIcon.hasText('1'))
 
         //navigate to cart and verify for success
         await click.forceClickOn(cartCountIcon)
-        urlCheck = await verify.theUrl()
-        await urlCheck.contains('cart')
+        verify.theUrl()
+            .then((urlCheck) => urlCheck.contains('cart'))
 
         //verify that correct item has added
-        const foodItemName = await verify.theElement(foodItemNameInCart)
-        await foodItemName.hasText(item1)
+        verify.theElement(foodItemNameInCart)
+            .then((foodItemName) => foodItemName.hasText(item1))
+
 
         //navigate to checkout
         await click.on(checkOutBtn)
 
         //fill the contact info and verify it
         await cartsPage.enterUserContactDetails(OrderTypeData.dataSet1)
-        const nameInput = await verify.theElement(fullNameInput)
-        const emailInput = await verify.theElement(emailInputField)
-        const phoneInput = await verify.theElement(phoneNumberInput)
 
-        await nameInput.haveValue(name)
-        await phoneInput.haveValue(phone)
-        await emailInput.haveValue(email)
+        //verifying the entered data
+        verify.theElement(fullNameInput)
+            .then((nameInput) => nameInput.haveValue(name))
+        verify.theElement(emailInputField)
+            .then((phoneInput) => phoneInput.haveValue(phone))
+        verify.theElement(phoneNumberInput)
+            .then((emailInput) => emailInput.haveValue(email))
 
 
         //navigate to add payment method window
         await click.on(addPaymentBtn)
-        const paymentOptionText = await verify.theElement(paymentOptionPopUpText)
-        await paymentOptionText.isVisible()
+        verify.theElement(paymentOptionPopUpText)
+            .then((paymentOptionText) => paymentOptionText.isVisible())
+
 
     })
 })
