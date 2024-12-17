@@ -3,28 +3,33 @@ name: Playwright automation test
 on:
     pull_request:
     # Trigger the workflow when a pull request is opened, edited, or reopened
-    types:
+     types:
+
       - opened
       - edited
       - reopened
 
 jobs:
-    e2e:
-     #virtual machine name for running the test
-      runs-on: ubuntu-latest    
-      steps:
-       -uses: actions/checkout@v4
-       #branch to checkout
-         with:
+  e2e:
+    #virtual machine name for running the test
+    runs-on: ubuntu-latest    
+    steps:
+      - uses: actions/checkout@v4
+        #branch to checkout
+        with:
           ref: ${{ github.ref }}   
-       -uses: actions/setup-node@v3   
+
+      -  uses: actions/setup-node@v3   
          with:
           node-version: lts/*
-       - name: Install dependencies
+
+      -  name: Install dependencies
          run: npm ci
-       - name: Install playwright browsers
+
+      -  name: Install playwright browsers
          run: npx playwright install --with-deps
-       - name: Run tests
+
+      -  name: Run tests
          run: npx playwright test   
 
          #need to setup for reporting part
