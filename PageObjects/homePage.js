@@ -61,7 +61,18 @@ export default class HomePage {
     }
 
     /**
-     * This function will select the respective order type and details
+     * This function will click on the respective order type button
+     * @param {string} orderType -  It is the type of order i.e Delivery, Pick up
+     */
+    async selectOrderType(orderType) {
+        const requiredBtnToClick = (orderType === delivery ? deliveryTypeBtn : pickUpTypeBtn)
+
+        await this.page.locator(requiredBtnToClick).click()
+    }
+
+
+    /**
+     * This function will click on the respective order type button and and then fill the details
      * @param {string} orderType - It is the type of order i.e Delivery, Pick up
      * @param {object} orderDetails - It is the object contains of order details like zip, area, time etc
      * @param {string} orderDetails.zip - zip code if order type is delivery
@@ -70,12 +81,7 @@ export default class HomePage {
     async selectOrderTypeDetails(orderType, orderDetails) {
         const { store = null, area = null, zip = null } = orderDetails
 
-        //selecting different order types according to input type
-        if (orderType === delivery) {
-            await this.page.locator(deliveryTypeBtn).click()
-        } else if (orderType === pickUp) {
-            await this.page.locator(pickUpTypeBtn).click()
-        }
+        this.selectOrderType(orderType)
 
         await this.page.fill(storeAreaStreetSearchBar, store || area || zip)
         await this.page.locator(storeAreaStreetSuggestionList).waitFor()
