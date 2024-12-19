@@ -1,4 +1,5 @@
 import { expect } from '@playwright/test'
+import pageSels from '../Selectors/pageSels';
 
 /**
  * This abstracts the actions relating to test assertions
@@ -13,6 +14,10 @@ export default class Verify {
         return {
             equalsTo: async (url) => {
                 await expect(this.page).toHaveURL(url);  // Perform URL assertion
+            },
+            contains: async (text) => {
+                const textPattern = new RegExp(text)
+                await expect(this.page).toHaveURL(textPattern);  // Perform URL assertion(partial)
             }
 
         };
@@ -22,6 +27,14 @@ export default class Verify {
         return {
             hasText: async (text) => {
                 await expect(this.page.locator(sel)).toHaveText(text)  //perform text assertion
+            }
+        }
+    }
+
+    async theToastMessage(sel = pageSels.homePage.toastMessage) {     //all toast messages are having same selector so adding a default selector value
+        return {
+            showsToastMessage: async (text) => {
+                await expect(this.page.locator(sel)).toHaveText(text)
             }
         }
     }

@@ -1,11 +1,12 @@
 // @ts-check
 const { defineConfig, devices } = require('@playwright/test');
-
+import dotEnv from 'dotenv'
+dotEnv.config()
 /**
  * Read environment variables from file.
  * https://github.com/motdotla/dotenv
  */
-// require('dotenv').config({ path: path.resolve(__dirname, '.env') });
+//require('dotenv').config({ path: path.resolve(__dirname, '.env') })
 
 /**
  * @see https://playwright.dev/docs/test-configuration
@@ -19,7 +20,7 @@ module.exports = defineConfig({
   /* Retry on CI only */
   retries: process.env.CI ? 2 : 0,
   /* Opt out of parallel tests on CI. */
-  workers: process.env.CI ? 1 : undefined,
+  workers: 2,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: 'html',
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
@@ -29,6 +30,8 @@ module.exports = defineConfig({
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
+    // @ts-ignore
+    browserName: process.env.CHROME_BROWSER
   },
 
   /* Configure projects for major browsers */
