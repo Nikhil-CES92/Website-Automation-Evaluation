@@ -27,6 +27,13 @@ export default class Verify {
         return {
             hasText: async (text) => {
                 await expect(this.page.locator(sel)).toHaveText(text)  //perform text assertion
+            },
+            haveValue: async (value) => {
+                await expect(this.page.locator(sel)).toHaveValue(value)
+            },
+
+            isVisible: async () => {
+                await expect(this.page.locator(sel)).toBeVisible()
             }
         }
     }

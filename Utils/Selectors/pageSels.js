@@ -19,7 +19,14 @@ export default {
         confirmBtn: 'button[data-testid="btn-confirm"]',
         cartCountIcon: 'role = button[name = "cart"]',
         toastMessage: 'div[class="Toastify"]',
-        confirmBtnOnHandler: 'button[data-testid="confirm-button-handler"]'
+        confirmBtnOnHandler: 'button[data-testid="confirm-button-handler"]',
+        foodItemNameInCart: 'div[data-testid="global-accordian"]',
+        checkOutBtn: 'button[data-testid="navigation-checkout-desktop"]',
+        fullNameInput: 'input[data-testid="form-fullname"]',
+        phoneNumberInput: 'input[data-testid="form-phone"]',
+        emailInputField: 'input[data-testid="form-email"]',
+        addPaymentBtn: 'button[data-testid="pay-button"]',
+        paymentOptionPopUpText: 'text = Select Your Payment'
     },
 
     signInPage: {

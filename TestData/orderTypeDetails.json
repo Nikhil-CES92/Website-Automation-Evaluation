@@ -1,7 +1,10 @@
 {
   "dataSet1": [
     {
-      "area": "Embassy tech village road"
+      "area": "Embassy tech village road",
+      "name": "Alex Bob",
+      "email": "Alex@gmail.com",
+      "phone": "9709281010"
     }
   ]
 }
