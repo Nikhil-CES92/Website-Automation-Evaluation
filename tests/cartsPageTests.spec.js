@@ -1,5 +1,5 @@
 import { test } from '@playwright/test'
-import HomePage from '../PageObjects/homePageFns'
+import HomePage from '../PageObjects/homePage'
 import Verify from '../Utils/Assertions/verify'
 import Click from '../Utils/Interaction/click'
 import Type from '../Utils/Interaction/type'
@@ -7,7 +7,7 @@ import PageSels from '../Utils/Selectors/pageSels'
 import TestData from '../TestData/products.json'
 import Constant from '../Utils/Constants/homePageConstants'
 import OrderTypeData from '../TestData/orderTypeDetails.json'
-import Carts from '../PageObjects/cartsPageFns'
+import Carts from '../PageObjects/cartsPage'
 
 
 const { menuBtn, menuSearchBar, cartCountIcon, foodItemNameInCart, checkOutBtn, emailInputField, fullNameInput, phoneNumberInput, addPaymentBtn, paymentOptionPopUpText } = PageSels.homePage
@@ -58,7 +58,7 @@ test.describe('Should execute KFC India test scenarios- Carts page', () => {
             .then((cartIcon) => cartIcon.hasText('1'))
 
         //navigate to cart and verify for success
-        await click.forceClickOn(cartCountIcon)
+        await click.On(cartCountIcon)
         verify.theUrl()
             .then((urlCheck) => urlCheck.contains('cart'))
 
