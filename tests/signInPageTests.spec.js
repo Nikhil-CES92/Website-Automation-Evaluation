@@ -7,7 +7,7 @@ import PageSels from '../Utils/Selectors/pageSels'
 const { skipBtnText } = PageSels.signInPage
 const { signInBtn, signIn } = PageSels.homePage
 
-let click, verify, homePage, urlCheck, baseURL
+let baseURL, urlCheck, homePage, verify, click
 test.describe('Should execute KFC India test scenarios - Sign In page', () => {
     test.beforeEach('It should navigate to home page before each test block', async ({ page }) => {
         homePage = new HomePage(page)
